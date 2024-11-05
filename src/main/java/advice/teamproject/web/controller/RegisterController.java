@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
 
 
 @Slf4j
@@ -28,18 +27,14 @@ public class RegisterController {
     }
 
     @PostMapping("/add")
-    public String save(@ModelAttribute Member member, Model model) {
-        Member savedMember = memberService.join(member);
+    public String signup(@ModelAttribute Member member, Model model) {
+        Member savedMember = memberService.create(member.getUsername(),
+                member.getEmail(),
+                member.getPassword(),
+                member.getCampus());
+
         model.addAttribute("member", savedMember);
         return "/test/signupView";
     }
 
-    // 지울 것 test용
-    @GetMapping("/list")
-    public String view(Model model) {
-        List<Member> members = memberService.memberList();
-        model.addAttribute("members", members);
-
-        return "/test/memberList";
-    }
 }
